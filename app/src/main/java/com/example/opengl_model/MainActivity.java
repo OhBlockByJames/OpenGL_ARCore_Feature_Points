@@ -48,6 +48,7 @@ public class MainActivity extends Activity {
         private final float POINT_WIDTH = 20f;
         private int program;
         private int color_length;
+        private int vertex_length;
 
         public Feature_Points(Context context) {
             mContext = context;
@@ -72,11 +73,18 @@ public class MainActivity extends Activity {
                     1.0f,0.0f,0.0f,1.0f,
                     0.0f,1.0f,0.0f,1.0f,
                     0.0f,0.0f,1.0f,1.0f,
-                    1.0f,0.0f,0.0f,0.8f,
+                    0.0f,1.0f,1.0f,0.8f,
             };
 
+            Log.d("vertex length: ",""+vertex_length);
             //每四個r,g,b,a一組
             color_length=(colors.length/4)-1;
+            Log.d("color length: ",""+color_length);
+
+            //檢查點的座標數值是否和顏色數值相符
+            if(color_length!=vertex_length){
+                Log.d("Error","點的座標數值和顏色數值不同");
+            }
             //設定點大小
             gl.glPointSize(20);
 
@@ -122,15 +130,12 @@ public class MainActivity extends Activity {
                     -0.2f, 0.3f, 0.1f,
                     -0.5f,-0.2f,-0.3f,
             };
-
-            Log.d("Array length: ",""+(vertex_list.length)/4);
-
             ByteBuffer vbb = ByteBuffer.allocateDirect(vertex_list.length * 4);
             vbb.order(ByteOrder.nativeOrder());
             mVertexBuffer = vbb.asFloatBuffer();
             mVertexBuffer.put(vertex_list);
             mVertexBuffer.position(0);
-
+            vertex_length=(vertex_list.length/3)-1;
         }
 
         public boolean onTouchEvent(MotionEvent e) {
