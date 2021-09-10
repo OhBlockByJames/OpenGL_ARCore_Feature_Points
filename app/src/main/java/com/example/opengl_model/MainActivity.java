@@ -50,6 +50,24 @@ public class MainActivity extends Activity {
         private int color_length;
         private int vertex_length;
 
+        //建立顏色array(r,g,b,a)
+        //宣告成全域變數
+        public float colors[]={
+                0.0f,0.0f,1.0f,1.0f,
+                0.0f,0.5f,0.0f,1.0f,
+                1.0f,0.0f,1.0f,1.0f,
+                0.0f,1.0f,1.0f,0.8f,
+        };
+
+        //建立位置array(x,y,z)
+        //宣告成全域變數
+        public float vertex_list[]={
+                0.5f, 0.5f, 0.0f,
+                0.3f, -0.4f, 0.2f,
+                -0.2f, 0.3f, 0.1f,
+                -0.5f,-0.2f,-0.3f
+        };
+
         public Feature_Points(Context context) {
             mContext = context;
         }
@@ -64,18 +82,13 @@ public class MainActivity extends Activity {
             gl.glRotatef(mAngleY, 0, 1, 0);
             gl.glRotatef(mAngleZ, 0, 0, 1);
             gl.glScalef(AXIS_SCALE_FACTOR, AXIS_SCALE_FACTOR, AXIS_SCALE_FACTOR);
-
             gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
-            gl.glLineWidth(AXIS_WIDTH);
-
-            //建立顏色array(r,g,b,a)
-            float colors[]={
+            /*float colors[]={
                     1.0f,0.0f,0.0f,1.0f,
                     0.0f,1.0f,0.0f,1.0f,
                     0.0f,0.0f,1.0f,1.0f,
                     0.0f,1.0f,1.0f,0.8f,
-            };
-
+            };*/
             Log.d("vertex length: ",""+vertex_length);
             //每四個r,g,b,a一組
             color_length=(colors.length/4)-1;
@@ -83,7 +96,7 @@ public class MainActivity extends Activity {
 
             //檢查點的座標數值是否和顏色數值相符
             if(color_length!=vertex_length){
-                Log.d("Error","點的座標數值和顏色數值不同");
+                Log.d("OpenGL Error","座標和顏色組數不同");
             }
             //設定點大小
             gl.glPointSize(20);
@@ -100,8 +113,6 @@ public class MainActivity extends Activity {
                 gl.glDrawArrays(GL10.GL_POINTS,index,1);
             }
         }
-
-
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -123,13 +134,12 @@ public class MainActivity extends Activity {
         }
 
         private void setAllBuffers(){
-            // Set vertex buffer
-            float vertex_list[] = {
+            /*float vertex_list[] = {
                     0.5f, 0.5f, 0.0f,
                     0.3f, 0.4f, 0.2f,
                     -0.2f, 0.3f, 0.1f,
                     -0.5f,-0.2f,-0.3f,
-            };
+            };*/
             ByteBuffer vbb = ByteBuffer.allocateDirect(vertex_list.length * 4);
             vbb.order(ByteOrder.nativeOrder());
             mVertexBuffer = vbb.asFloatBuffer();
@@ -154,5 +164,4 @@ public class MainActivity extends Activity {
             return true;
         }
     }
-
 }
